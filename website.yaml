@@ -73,6 +73,9 @@ paths:
                   type: string
                 file:
                   type: string
+                display_date:
+                  type: string
+                  format: date
       responses:
         '200':
           description: Successfully created
@@ -94,27 +97,67 @@ paths:
       tags:
         - article
       summary: Fetch existing articles
+      parameters:
+      - name: page
+        schema:
+          type: integer
+        in: query
+        description: page number to retrieve (default:0 - based on "items_per_page" param)
+      - name: sort_order
+        schema:
+          type: string
+        in: query
+        description: sort by field + space + order direction (default:"id desc")
+      - name: items_per_page
+        schema:
+          type: integer
+        in: query
+        description: setting the number of items per page (default:10)
+      - name: keywords
+        schema:
+          type: integer
+        in: query
+        description: free text search by keywords
       responses:
         '200':
           description: Sucessfully fetched
           content:
             application/json:
               schema: 
-                type: array
-                items:
-                  type: object
-                  properties:
-                    uuid:
-                      type: string
-                    created_at:
-                      type: string
-                      format: datetime
-                    title:
-                      type: string
-                    description:
-                      type: string
-                    file:
-                      type: string
+                type: object
+                properties:
+                  paging:
+                    type: object
+                    properties:
+                      total_items:
+                        type: integer
+                      number_of_pages:
+                        type: integer
+                      current_page:
+                        type: integer
+                      sort_order:
+                        type: string
+                      items_per_page:
+                        type: integer
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        uuid:
+                          type: string
+                        created_at:
+                          type: string
+                          format: datetime
+                        title:
+                          type: string
+                        description:
+                          type: string
+                        file:
+                          type: string
+                        display_date:
+                          type: string
+                          format: date
         '500':
           $ref: '#/components/responses/GenericServerError'
   /article/{uuid}:
@@ -127,7 +170,7 @@ paths:
         schema:
           type: string
         in: path
-        description: article's ID
+        description: article's uuid
         required: true
       responses:
         '200':
@@ -146,6 +189,9 @@ paths:
                     type: string
                   file:
                     type: string
+                  display_date:
+                    type: string
+                    format: date
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -161,7 +207,7 @@ paths:
         schema:
           type: string
         in: path
-        description: article's ID
+        description: article's uuid
         required: true
       requestBody:
         required: true
@@ -176,6 +222,9 @@ paths:
                   type: string
                 file:
                   type: string
+                display_date:
+                  type: string
+                  format: date
       responses:
         '200':
           description: Successfully updated
@@ -196,7 +245,7 @@ paths:
         schema:
           type: string
         in: path
-        description: article's ID
+        description: article's uuid
         required: true
       responses:
         '200':
@@ -227,6 +276,9 @@ paths:
                   type: string
                 location:
                   type: string
+                display_date:
+                  type: string
+                  format: date
       responses:
         '200':
           description: Successfully created
@@ -248,27 +300,67 @@ paths:
       tags:
         - career
       summary: Fetch existing careers' items
+      parameters:
+      - name: page
+        schema:
+          type: integer
+        in: query
+        description: page number to retrieve (default:0 - based on "items_per_page" param)
+      - name: sort_order
+        schema:
+          type: string
+        in: query
+        description: sort by field + space + order direction (default:"id desc")
+      - name: items_per_page
+        schema:
+          type: integer
+        in: query
+        description: setting the number of items per page (default:10)
+      - name: keywords
+        schema:
+          type: integer
+        in: query
+        description: free text search by keywords
       responses:
         '200':
           description: Sucessfully fetched
           content:
             application/json:
               schema: 
-                type: array
-                items:
-                  type: object
-                  properties:
-                    uuid:
-                      type: string
-                    created_at:
-                      type: string
-                      format: datetime
-                    title:
-                      type: string
-                    description:
-                      type: string
-                    file:
-                      type: string
+                type: object
+                properties:
+                  paging:
+                    type: object
+                    properties:
+                      total_items:
+                        type: integer
+                      number_of_pages:
+                        type: integer
+                      current_page:
+                        type: integer
+                      sort_order:
+                        type: string
+                      items_per_page:
+                        type: integer
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        uuid:
+                          type: string
+                        created_at:
+                          type: string
+                          format: datetime
+                        title:
+                          type: string
+                        description:
+                          type: string
+                        location:
+                          type: string
+                        display_date:
+                          type: string
+                          format: date
         '500':
           $ref: '#/components/responses/GenericServerError'
   /career/{uuid}:
@@ -281,7 +373,7 @@ paths:
         schema:
           type: string
         in: path
-        description: career's ID
+        description: career's uuid
         required: true
       responses:
         '200':
@@ -300,6 +392,9 @@ paths:
                     type: string
                   location:
                     type: string
+                  display_date:
+                    type: string
+                    format: date
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
@@ -315,7 +410,7 @@ paths:
         schema:
           type: string
         in: path
-        description: career's ID
+        description: career's uuid
         required: true
       requestBody:
         required: true
@@ -330,6 +425,9 @@ paths:
                   type: string
                 location:
                   type: string
+                display_date:
+                  type: string
+                  format: date
       responses:
         '200':
           description: Successfully updated
@@ -350,7 +448,7 @@ paths:
         schema:
           type: string
         in: path
-        description: career's ID
+        description: career's uuid
         required: true
       responses:
         '200':
@@ -370,7 +468,7 @@ paths:
         schema:
           type: string
         in: path
-        description: career's ID
+        description: career's uuid
         required: true
       requestBody:
         required: true
@@ -452,6 +550,59 @@ paths:
           description: Successfully created
         '500':
           $ref: '#/components/responses/GenericServerError'
+  /file:
+    post:
+      tags:
+        - files management
+      summary: Upload a file and get a unique filename (filename:"uuid.ext")
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/pdf:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Successfully uploaded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  filename:
+                    type: string
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/GenericServerError'
+        '502':
+          description: File rejected
+  /file/{uuid}:
+    delete:
+      tags:
+        - files management
+      summary: Delete a file by uuid (filename:"uuid.ext")
+      security:
+        - bearerAuth: []
+      parameters:
+      - name: uuid
+        schema:
+          type: string
+        in: path
+        description: file's uuid
+        required: true
+      responses:
+        '200':
+          description: Successfully deleted
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/GenericServerError'
 components:
   securitySchemes:
     bearerAuth:
@@ -474,7 +625,7 @@ components:
       description: Bad request (mostly - inputs/headers related problem)
     NotFound:
       description: The specified resource was not found
-    GenericServerError:            
+    GenericServerError:
       description: A Generic Server Error occured
       content:
         application/json:
